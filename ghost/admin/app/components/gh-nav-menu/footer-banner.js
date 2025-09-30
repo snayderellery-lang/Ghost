@@ -53,7 +53,7 @@ export default class FooterBanner extends Component {
 
     @task
     *loadCurrentMRR() {
-        if (this.isAdminOrOwnern) {
+        if (this.isAdminOrOwner) {
             try {
                 yield this.dashboardStats.loadMrrStats();
             } catch (error) {

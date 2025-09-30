@@ -12,19 +12,26 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         this.owner.register('service:whatsNew', Service.extend({
             hasNew: true,
             hasNewFeatured: true,
-            entries: [{
-                title: 'Test Feature',
-                url: 'https://ghost.org/changelog/test',
-                custom_excerpt: 'Test description',
-                published_at: '2024-12-01T00:00:00.000Z',
-                featured: true
-            }],
-            seen() {}
+            shouldShowFeaturedBanner: true,
+            seen() {},
+            init() {
+                this._super(...arguments);
+                this.entries = [{
+                    title: 'Test Feature',
+                    url: 'https://ghost.org/changelog/test',
+                    custom_excerpt: 'Test description',
+                    published_at: '2024-12-01T00:00:00.000Z',
+                    featured: true
+                }];
+            }
         }));
 
         this.owner.register('service:session', Service.extend({
-            user: {
-                isAdmin: false
+            init() {
+                this._super(...arguments);
+                this.user = {
+                    isAdmin: false
+                };
             }
         }));
 
@@ -36,8 +43,11 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         }));
 
         this.owner.register('service:feature', Service.extend({
-            accessibility: {
-                referralInviteDismissed: false
+            init() {
+                this._super(...arguments);
+                this.accessibility = {
+                    referralInviteDismissed: false
+                };
             }
         }));
 
@@ -53,27 +63,34 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         await render(hbs`<GhNavMenu::FooterBanner />`);
 
         expect(find('.gh-whatsnew-toast'), 'what\'s new banner is visible').to.exist;
-        expect(find('.gh-whatsnew-toast')).to.contain.text('What\'s new?');
-        expect(find('.gh-whatsnew-toast')).to.contain.text('Test Feature');
-        expect(find('.gh-whatsnew-toast')).to.contain.text('Test description');
+        expect(find('.gh-sidebar-banner-subhead'), 'subhead element exists').to.exist;
+        expect(find('.gh-sidebar-banner-subhead').textContent).to.match(/What.s new\?/);
+        expect(find('.gh-sidebar-banner-msg')).to.contain.text('Test Feature');
+        expect(find('.gh-sidebar-banner-details')).to.contain.text('Test description');
     });
 
     it('hides what\'s new banner when hasNewFeatured is false', async function () {
         this.owner.register('service:whatsNew', Service.extend({
             hasNew: true,
             hasNewFeatured: false,
-            entries: [{
-                title: 'Non-featured Update',
-                url: 'https://ghost.org/changelog/test',
-                published_at: '2024-12-01T00:00:00.000Z',
-                featured: false
-            }],
-            seen() {}
+            seen() {},
+            init() {
+                this._super(...arguments);
+                this.entries = [{
+                    title: 'Non-featured Update',
+                    url: 'https://ghost.org/changelog/test',
+                    published_at: '2024-12-01T00:00:00.000Z',
+                    featured: false
+                }];
+            }
         }));
 
         this.owner.register('service:session', Service.extend({
-            user: {
-                isAdmin: false
+            init() {
+                this._super(...arguments);
+                this.user = {
+                    isAdmin: false
+                };
             }
         }));
 
@@ -85,8 +102,11 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         }));
 
         this.owner.register('service:feature', Service.extend({
-            accessibility: {
-                referralInviteDismissed: false
+            init() {
+                this._super(...arguments);
+                this.accessibility = {
+                    referralInviteDismissed: false
+                };
             }
         }));
 
@@ -108,19 +128,26 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         this.owner.register('service:whatsNew', Service.extend({
             hasNew: true,
             hasNewFeatured: true,
-            entries: [{
-                title: 'Test Feature',
-                url: 'https://ghost.org/changelog/test',
-                custom_excerpt: 'Test description',
-                published_at: '2024-12-01T00:00:00.000Z',
-                featured: true
-            }],
-            seen() {}
+            shouldShowFeaturedBanner: true,
+            seen() {},
+            init() {
+                this._super(...arguments);
+                this.entries = [{
+                    title: 'Test Feature',
+                    url: 'https://ghost.org/changelog/test',
+                    custom_excerpt: 'Test description',
+                    published_at: '2024-12-01T00:00:00.000Z',
+                    featured: true
+                }];
+            }
         }));
 
         this.owner.register('service:session', Service.extend({
-            user: {
-                isAdmin: true
+            init() {
+                this._super(...arguments);
+                this.user = {
+                    isAdmin: true
+                };
             }
         }));
 
@@ -132,8 +159,11 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         }));
 
         this.owner.register('service:feature', Service.extend({
-            accessibility: {
-                referralInviteDismissed: false
+            init() {
+                this._super(...arguments);
+                this.accessibility = {
+                    referralInviteDismissed: false
+                };
             }
         }));
 
@@ -158,13 +188,19 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         this.owner.register('service:whatsNew', Service.extend({
             hasNew: false,
             hasNewFeatured: false,
-            entries: [],
-            seen() {}
+            seen() {},
+            init() {
+                this._super(...arguments);
+                this.entries = [];
+            }
         }));
 
         this.owner.register('service:session', Service.extend({
-            user: {
-                isAdmin: false
+            init() {
+                this._super(...arguments);
+                this.user = {
+                    isAdmin: false
+                };
             }
         }));
 
@@ -176,8 +212,11 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         }));
 
         this.owner.register('service:feature', Service.extend({
-            accessibility: {
-                referralInviteDismissed: false
+            init() {
+                this._super(...arguments);
+                this.accessibility = {
+                    referralInviteDismissed: false
+                };
             }
         }));
 
@@ -200,19 +239,25 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
             hasNew: true,
             hasNewFeatured: true,
             shouldShowFeaturedBanner: false, // Override to false
-            entries: [{
-                title: 'Test Feature',
-                url: 'https://ghost.org/changelog/test',
-                custom_excerpt: 'Test description',
-                published_at: '2024-12-01T00:00:00.000Z',
-                featured: true
-            }],
-            seen() {}
+            seen() {},
+            init() {
+                this._super(...arguments);
+                this.entries = [{
+                    title: 'Test Feature',
+                    url: 'https://ghost.org/changelog/test',
+                    custom_excerpt: 'Test description',
+                    published_at: '2024-12-01T00:00:00.000Z',
+                    featured: true
+                }];
+            }
         }));
 
         this.owner.register('service:session', Service.extend({
-            user: {
-                isAdmin: false
+            init() {
+                this._super(...arguments);
+                this.user = {
+                    isAdmin: false
+                };
             }
         }));
 
@@ -224,8 +269,11 @@ describe('Integration: Component: gh-nav-menu/footer-banner', function () {
         }));
 
         this.owner.register('service:feature', Service.extend({
-            accessibility: {
-                referralInviteDismissed: false
+            init() {
+                this._super(...arguments);
+                this.accessibility = {
+                    referralInviteDismissed: false
+                };
             }
         }));
 
