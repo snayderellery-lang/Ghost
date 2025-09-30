@@ -148,7 +148,8 @@ module.exports = class GhostMailer {
                     message['o:tag'] = [message['o:tag']];
                 }
 
-                message['o:tag'].push(`blog-${siteId}`);
+                message['o:tag'].push('transactional-email', `blog-${siteId}`);
+                message['o:tracking-opens'] = true;
             }
         }
 
