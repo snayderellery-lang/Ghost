@@ -1,0 +1,70 @@
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "RecorrerHub"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Marco principal
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 180, 0, 200)
+frame.Position = UDim2.new(0.05, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local layout = Instance.new("UIListLayout")
+layout.Parent = frame
+layout.Padding = UDim.new(0, 5)
+layout.FillDirection = Enum.FillDirection.Vertical
+
+-- Variables globales
+local savedCFrame = nil
+local noclip = false
+
+-- Función para botones
+local function createButton(name, callback)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, -10, 0, 40)
+    btn.Text = name
+    btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 20
+    btn.Parent = frame
+    btn.MouseButton1Click:Connect(callback)
+end
+
+-- Botón TP (guardar posición)
+createButton("TP", function()
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        savedCFrame = char.HumanoidRootPart.CFrame
+        warn("📍 Posición guardada")
+    end
+end)
+
+-- Botón TP2 (volver a posición guardada)
+createButton("TP2", function()
+    local char = player.Character
+    if savedCFrame and char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = savedCFrame
+        warn("✅ Teletransportado")
+    end
+end)
+
+-- Botón TRASS (noclip)
+createButton("TRASS", function()
+    noclip = not noclip
+    warn(noclip and "🚀 Noclip activado" or "❌ Noclip desactivado")
+end)
+
+-- Bucle noclip
+game:GetService("RunService").Stepped:Connect(function()
+    if noclip and player.Character then
+        for _, part in ipairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end)
